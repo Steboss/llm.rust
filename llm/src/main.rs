@@ -1,3 +1,5 @@
+mod cli;
+use cli::Config;
 use std::io::{self, BufReader, Read, Seek, SeekFrom};
 use std::fs::File;
 use std::path::Path;
@@ -2093,6 +2095,12 @@ fn print_model_summary(model: &GPT2) {
 
 }
 fn main() -> Result<(), Box<dyn Error>> {
+    // Introduce and parse cli argument
+    let config = Config::from_args();
+    println!(
+        "Starting training with learning rate: {}, batch size: {}, epochs: {}",
+        config.learning_rate, config.batch_size, config.epochs
+    );
     // Set up Rayon to use a specific number of threads, this must be either the same as openblas or 1
     rayon::ThreadPoolBuilder::new().num_threads(16).build_global().unwrap();
 
